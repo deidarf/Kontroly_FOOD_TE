@@ -68,7 +68,7 @@ body {
 main {
   max-width: 720px;
   margin: 0 auto;
-  padding: 10px 16px 130px;
+  padding: 10px 16px 150px;
 }
 h1.big {
   margin: 14px 0 2px;
@@ -119,14 +119,21 @@ h3 {
   box-shadow: var(--sh);
 }
 .hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 14px;
   padding: 20px;
   border-radius: 24px;
   background: linear-gradient(135deg, var(--brand), var(--brand2));
   color: #fff;
+}
+.hero > div:first-child {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 .hero small {
   opacity: 0.8;
@@ -297,16 +304,16 @@ button.big {
 }
 .tabbar {
   position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 10;
   display: flex;
   gap: 2px;
-  padding: 6px;
-  border-radius: 28px;
-  background: #fff;
-  box-shadow: 0 8px 28px rgba(35, 20, 70, 0.16);
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+  border-radius: 26px 26px 0 0;
+  background: #ebe5fa;
+  box-shadow: 0 -6px 24px rgba(35, 20, 70, 0.08);
 }
 .tabbar button {
   flex: 1;
@@ -317,14 +324,14 @@ button.big {
   min-height: 56px;
   margin: 0;
   padding: 8px 2px 6px;
-  border-radius: 22px;
+  border-radius: 20px;
   background: none;
-  color: var(--ink);
+  color: #8576b8;
   font-size: 11.5px;
   font-weight: 600;
 }
 .tabbar button.on {
-  background: var(--pill);
+  background: #fff;
   color: var(--brand);
 }
 .strip {
@@ -445,15 +452,6 @@ button.big {
 .cash {
   margin-top: 12px;
 }
-.entc {
-  display: flex;
-  gap: 6px;
-}
-.entc button {
-  min-height: 48px;
-  margin: 0;
-  padding: 6px 18px;
-}
 .g2 {
   display: flex;
   align-items: center;
@@ -525,6 +523,130 @@ canvas.sig.big {
   position: fixed;
   left: -10000px;
   top: 0;
+}
+input[type="date"],
+input[type="datetime-local"] {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+}
+input[type="date"]::-webkit-date-and-time-value,
+input[type="datetime-local"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+.sec-h {
+  margin: 22px 0 12px;
+  font-size: 22px;
+  font-weight: 800;
+}
+.ring {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: conic-gradient(#fff calc(var(--p) * 1%), rgba(255, 255, 255, 0.28) 0);
+}
+.ring span {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--brand2);
+  font-size: 18px;
+  font-weight: 800;
+  opacity: 1;
+}
+.pmc {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.pmc button {
+  flex: 1;
+  margin: 0;
+}
+.fab {
+  position: fixed;
+  right: 18px;
+  bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  z-index: 11;
+  width: 58px;
+  height: 58px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 32px;
+  line-height: 1;
+  box-shadow: 0 8px 20px rgba(91, 42, 158, 0.4);
+}
+.fab[hidden],
+.sheet[hidden] {
+  display: none;
+}
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sheet-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(25, 15, 50, 0.45);
+}
+.sheet-box {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 88vh;
+  overflow: auto;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  border-radius: 26px 26px 0 0;
+  background: #fff;
+}
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sheet-head button {
+  min-height: 40px;
+  margin: 0;
+  padding: 6px 16px;
+}
+.sheet hr {
+  margin: 16px 0 6px;
+  border: 0;
+  border-top: 1px solid var(--bd);
+}
+.filebtn {
+  display: block;
+  margin: 10px 0;
+  padding: 13px;
+  border: 1.5px solid var(--bd);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 .pg {
   width: 794px;
@@ -631,10 +753,25 @@ canvas.sig.big {
 </style></head><body>
 <header class="top"><img id="lg" alt="Lagardère"><span id="pr"></span></header>
 <main id="m"></main>
+<button class="fab" id="fab" data-a="sopen" aria-label="Přidat položky" hidden>+</button>
 <nav class="tabbar" id="tabs"></nav>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bg" id="sheet-bg"></div>
+  <div class="sheet-box">
+    <div class="sheet-head"><h2>Přidat položky</h2><button class="sec" data-a="sclose" aria-label="Zavřít">×</button></div>
+    <label>Ručně – název položky<input id="sn" placeholder="Název položky" autocomplete="off" enterkeyhint="done"></label>
+    <button class="wide" data-a="sadd">Přidat do seznamu</button>
+    <p class="mut" id="smsg"></p>
+    <hr>
+    <label class="filebtn">Nahrát Excel<input class="vh" id="sf" type="file" accept=".xlsx,.xls,.csv"></label>
+    <label>Nebo vložit text (jeden název na řádek)<textarea id="spaste" rows="3"></textarea></label>
+    <button class="sec wide" data-a="simp">Načíst vložený text</button>
+  </div>
+</div>
 <div id="stage"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 "use strict";
 /* Kontroly zásob — client-side app (no backend). Data lives in localStorage; PDFs are built in the browser
@@ -650,7 +787,6 @@ const fresh = () => ({
   adr: "",
   datum: new Date().toLocaleDateString("sv"),
   soupis: "",
-  prikaz: "",
   manazer: "",
   predseda: "",
   clenove: "",
@@ -754,7 +890,7 @@ const today = () =>
 const card = (to, label, val, sub, flt = "", cls = "") =>
   `<button class="c ${cls}" data-a="tab" data-to="${to}" data-flt="${flt}"><span>${label}</span><b>${val}</b><small>${sub}</small></button>`;
 const entC = (k, l) =>
-  `<div class="cash"><div class="eh"><small>${l}</small><span class="st"><b id="c${k}">${N(S[k]) === null ? "–" : fmt(N(S[k]))}</b><button class="sec" data-rstc="${k}" aria-label="Smazat stav">×</button></span></div><div class="entc"><input inputmode="decimal" placeholder="zadat" aria-label="${l}" data-ec="${k}"><button class="sec" data-sg="+">+</button><button class="sec" data-sg="-">−</button></div></div>`;
+  `<div class="cash"><div class="eh"><small>${l}</small><span class="st"><b id="c${k}">${N(S[k]) === null ? "–" : fmt(N(S[k]))}</b><button class="sec" data-rstc="${k}" aria-label="Smazat stav">×</button></span></div><input inputmode="decimal" placeholder="zadat" aria-label="${l}" data-ec="${k}"></div>`;
 const ICONS = {
   home: '<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   prep: '<path d="M4 6h16M4 12h16M4 18h10"/>',
@@ -771,13 +907,14 @@ const V = {
     const a = S.items,
       bad = a.filter(isBad),
       done = a.filter((i) => N(i.s) !== null).length,
+      pct = a.length ? Math.round((done / a.length) * 100) : 0,
       need = (S.manazer || "").trim() ? 2 : 1,
       sg = (S.sp ? 1 : 0) + (S.sm ? 1 : 0),
       head = `<h1 class="big">${greet()}</h1><p class="sub">${today()}</p>`;
     if (!S.typ)
       return (
         head +
-        `<div class="hero"><b>Nová kontrola</b><span>Vyberte typ a připravte položky.</span><button data-a="tab" data-to="prep">Začít</button></div>`
+        `<h2 class="sec-h">Nová kontrola</h2><div class="tiles"><button class="big" data-t="food">FOOD</button><button class="big" data-t="te">TE</button></div>`
       );
     const list = bad.length
       ? bad
@@ -790,8 +927,8 @@ const V = {
       : '<p class="mut">Zatím žádné rozdíly.</p>';
     return (
       head +
-      `<div class="hero"><small>${food() ? "FOOD" : "TE"} · ${E(S.prov) || "bez čísla"}</small><b>${E(S.adr) || "Rozpracovaná kontrola"}</b><span>Vyplněno ${done} z ${a.length} · rozdíly ${bad.length}</span><button data-a="tab" data-to="kon">Pokračovat v kontrole</button></div>` +
-      `<div class="cards">${card("prep", "Položky", a.length, "v soupisu")}${card("kon", "Vyplněno", done + "/" + a.length, "položek")}${card("kon", "Rozdíly", bad.length, "k vysvětlení", "bad", bad.length ? "warn" : "")}${food() ? card("zap", "Zápis", hd() || "–", "rozdíl hotovosti") : ""}${card("fin", "Podpisy", sg + "/" + need, "předseda · manažer")}</div>` +
+      `<div class="hero"><div><small>Rozpracovaná kontrola</small><b>${E(S.adr) || "Bez názvu"}</b><span>Chybí ${100 - pct} % · ${done} z ${a.length} položek</span><button data-a="tab" data-to="kon">Pokračovat</button></div><div class="ring" style="--p:${pct}"><span>${pct} %</span></div></div>` +
+      `<div class="cards">${card("prep", "Položky", a.length, "v soupisu")}${card("kon", "Rozdíly", bad.length, "k vysvětlení", "bad", bad.length ? "warn" : "")}${food() ? card("zap", "Zápis", hd() || "–", "rozdíl hotovosti") : ""}${card("fin", "Podpisy", sg + "/" + need, "předseda · manažer")}</div>` +
       `<p class="label">K vysvětlení</p>${list}<button class="link" data-a="reset">Nová kontrola (smazat rozpracované)</button>`
     );
   },
@@ -815,9 +952,8 @@ const V = {
     `<div class="tiles"><button class="big" data-t="food">FOOD</button><button class="big" data-t="te">TE</button></div>`,
   hlav: () =>
     `<div class="card"><h2>Hlavička kontroly</h2>${f("prov", "Číslo " + nm(), "text")}${f("adr", food() ? "Adresa provozovny" : "Název prodejny")}${f("datum", "Datum kontroly", "date")}${food() ? f("soupis", "Číslo soupisu", "text", sug()) : ""}</div>`,
-  pol: () => `<div class="card"><h2>Položky ke kontrole</h2><p class="mut">Vložte seznam položek z Excelu nebo Power BI (jeden název na řádek). Dispozice se zadávají v kroku Kontrola.</p><textarea id="paste" rows="6"></textarea><button data-a="imp">Načíst položky</button></div>
-<div class="card"><h3>Přidat ručně</h3><input id="an" placeholder="Název"><button data-a="add">Přidat</button></div>
-<div class="card"><h3>Seznam (${S.items.length})</h3>${S.items.map((it, i) => `<div class="li"><span>${E(it.n)}</span><button class="sec" data-del="${i}">×</button></div>`).join("")}${S.items.length ? '<button class="sec" data-a="clr">Smazat vše</button>' : ""}</div>`,
+  pol: () =>
+    `<div class="card"><h2>Položky ke kontrole</h2><p class="mut">V seznamu: ${S.items.length}</p><button class="wide" data-a="sopen">Přidat položky</button>${S.items.map((it, i) => `<div class="li"><span>${E(it.n)}</span><button class="sec" data-del="${i}" aria-label="Odebrat">×</button></div>`).join("")}${S.items.length ? '<button class="link" data-a="clr">Smazat všechny položky</button>' : ""}</div>`,
   kon: () =>
     `<h1 class="h">Kontrola</h1><div class="strip"><span class="mut" id="sum"></span><div class="fl"><button class="sec on" data-fl="">Vše</button><button class="sec" data-fl="un">Nevyplněné</button><button class="sec" data-fl="bad">Rozdíly</button></div></div>` +
     S.items
@@ -826,10 +962,10 @@ const V = {
           `<div class="row" id="r${i}"><div class="rh"><b><span class="no">${i + 1}</span>${E(it.n)}</b><span class="chip" id="res${i}"></span></div><div class="g">${ent(i, "d", "Dispozice")}${ent(i, "s", "Skutečnost")}</div><div class="g2"><div class="pm"><button class="sec" data-sg="+">+</button><button class="sec" data-sg="-">−</button></div><input class="kom" placeholder="Komentář" data-i="${i}" data-f="k" value="${E(it.k)}"></div></div>`,
       )
       .join("") +
-    `<div class="card"><h3>Přidat položku navíc</h3><input id="an" placeholder="Název"><input id="ad" inputmode="decimal" placeholder="Dispozice (nepovinné)" style="margin-top:8px"><button class="sec" data-a="add">Přidat</button></div><button class="wide" data-a="tab" data-to="${food() ? "zap" : "fin"}">Pokračovat</button>`,
-  zap: () => `<h1 class="h">Zápis</h1><div class="card"><h2>Průběh kontroly</h2>${f("prikaz", "Příkaz k provedení FI č.", "text", psug())}${f("start", "Počátek kontroly", "datetime-local")}${f("end", "Konec kontroly", "datetime-local")}</div>
-<div class="card"><h3>Inventura pokladní hotovosti</h3>${entC("hs", "Stav hotovosti v systému (Kč)")}${entC("hf", "Stav hotovosti fyzicky (Kč)")}<p>Rozdíl: <b id="hd">${hd()}</b></p>${ta("vhot", "Vyjádření k pokladní hotovosti")}</div>
-<div class="card"><h3>Fyzická kontrola zboží</h3>${f("dil", "Provedena dílčí inventura č.")}${ta("vkon", "Vyjádření ke kontrole", 6)}<button class="sec" data-a="auto">Předvyplnit z výsledků</button></div><button class="wide" data-a="tab" data-to="fin">Pokračovat</button>`,
+    `<button class="wide" data-a="tab" data-to="${food() ? "zap" : "fin"}">Pokračovat</button>`,
+  zap: () => `<h1 class="h">Zápis</h1><div class="card"><h2>Průběh kontroly</h2>${f("start", "Počátek kontroly", "datetime-local")}${f("end", "Konec kontroly", "datetime-local")}</div>
+<div class="card"><h3>Inventura pokladní hotovosti</h3>${entC("hs", "Stav hotovosti v systému (Kč)")}${entC("hf", "Stav hotovosti fyzicky (Kč)")}<div class="pmc"><button class="sec" data-sg="+">+</button><button class="sec" data-sg="-">−</button></div><p>Rozdíl: <b id="hd">${hd()}</b></p>${ta("vhot", "Vyjádření k pokladní hotovosti")}</div>
+<div class="card"><h3>Fyzická kontrola zboží</h3>${f("dil", "Provedena dílčí inventura č.")}${ta("vkon", "Vyjádření ke kontrole", 6)}</div><button class="wide" data-a="tab" data-to="fin">Pokračovat</button>`,
   kom: () =>
     `<div class="card"><h2>Komise</h2><p class="mut">Kdo kontrolu provedl. Podpisy následují v dalších krocích.</p>${f("predseda", "Předseda IK (kontrolující) – jméno a příjmení")}${f("manazer", "Manažer " + nm() + " – jméno a příjmení (pokud je přítomen)")}${food() ? ta("clenove", "Další členové komise (každý na nový řádek)", 2) : ""}</div>`,
   pds: () => sigv("sp", "Podpis předsedy IK", S.predseda),
@@ -838,7 +974,7 @@ const V = {
     const a = S.items,
       d = a.filter(isBad).length,
       u = a.filter((i) => N(i.s) === null).length;
-    return `<div class="card"><h2>Hotovo</h2><div class="stats"><div><b>${a.length}</b><small>položek</small></div><div class="${d ? "bd" : ""}"><b>${d}</b><small>s rozdílem</small></div><div><b>${u}</b><small>nevyplněných</small></div></div>${S.sp ? "" : '<p class="mut">Chybí podpis předsedy, v dokumentu zůstane prázdné místo.</p>'}</div><div class="card"><h3>Dokumenty</h3><button class="wide" data-a="gs">⬇ Soupis (PDF)</button>${food() ? '<button class="wide" data-a="gz">⬇ Zápis o kontrole (PDF)</button>' : ""}<p class="mut" id="msg"></p></div><button class="sec wide" data-a="reset">Nová kontrola</button>`;
+    return `<div class="card"><h2>Hotovo</h2><div class="stats"><div><b>${a.length}</b><small>položek</small></div><div class="${d ? "bd" : ""}"><b>${d}</b><small>s rozdílem</small></div><div><b>${u}</b><small>nevyplněných</small></div></div>${S.sp ? "" : '<p class="mut">Chybí podpis předsedy, v dokumentu zůstane prázdné místo.</p>'}</div><div class="card"><h3>Dokumenty</h3><button class="wide" data-a="gs">Soupis (PDF)</button>${food() ? '<button class="wide" data-a="gz">Zápis o kontrole (PDF)</button>' : ""}<p class="mut" id="msg"></p></div><button class="sec wide" data-a="reset">Nová kontrola</button>`;
   },
 };
 
@@ -850,7 +986,8 @@ function render() {
   const cur = tab === "fin" ? finSteps()[Math.min(fin, finSteps().length - 1)] : "";
   $("#m").dataset.flt = "";
   $("#m").innerHTML = V[tab]();
-  $("#pr").textContent = S.typ ? (food() ? "FOOD" : "TE") : "";
+  $("#pr").textContent = S.prov || "";
+  $("#fab").hidden = tab !== "kon";
   $("#tabs").innerHTML = tb
     .map(
       ([id, l]) =>
@@ -941,25 +1078,87 @@ function auto() {
 }
 
 // ======== Import / export between devices ========
-function imp() {
-  $("#paste")
-    .value.split("\n")
-    .forEach((l) => {
-      l = l.replace(/\r/, "").trim();
-      if (!l) return;
-      let n, d;
-      const c = l.split("\t");
-      if (c.length > 1) {
-        n = (c.length > 2 && /^\d+$/.test(c[0].trim()) ? c[1] : c[0]).trim();
-        d = c[c.length - 1];
-      } else {
-        n = l;
-        d = "";
-      }
-      if (n && (d === "" || N(d) !== null))
-        S.items.push({ n, d: d === "" ? "" : String(N(d)), s: "", k: "" });
-    });
+/** Parses pasted text: one item per line, optionally "name<TAB>dispozice". */
+function parseText(text) {
+  const out = [];
+  text.split("\n").forEach((l) => {
+    l = l.replace(/\r/, "").trim();
+    if (!l) return;
+    const c = l.split("\t");
+    let n, d;
+    if (c.length > 1) {
+      n = (c.length > 2 && /^\d+$/.test(c[0].trim()) ? c[1] : c[0]).trim();
+      d = c[c.length - 1];
+    } else {
+      n = l;
+      d = "";
+    }
+    if (n && (d === "" || N(d) !== null))
+      out.push({ n, d: d === "" ? "" : String(N(d)), s: "", k: "" });
+  });
+  return out;
+}
+const isNum = (x) =>
+  typeof x === "number" ||
+  (typeof x === "string" && /^[-+]?[\d\s.,]+$/.test(x.trim()) && N(x) !== null);
+/** Excel rows -> items: first text cell is the name, first number after it is the dispozice. */
+function rowsToItems(rows) {
+  const out = [];
+  rows.forEach((r) => {
+    const c = r.filter((x) => x !== "" && x != null),
+      i = c.findIndex((x) => typeof x === "string" && !isNum(x));
+    if (i < 0) return;
+    const num = c.slice(i + 1).find(isNum);
+    out.push({ n: String(c[i]).trim(), d: num === undefined ? "" : String(N(num)), s: "", k: "" });
+  });
+  if (out.length > 1 && out[0].d === "" && out.slice(1).some((x) => x.d !== "")) out.shift();
+  return out;
+}
+let added = 0;
+const sheetMsg = (t) => {
+  $("#smsg").textContent = t;
+};
+function openSheet() {
+  added = 0;
+  sheetMsg("");
+  $("#sheet").hidden = false;
+}
+function closeSheet() {
+  $("#sheet").hidden = true;
+}
+function addManual() {
+  const i = $("#sn"),
+    n = i.value.trim();
+  if (!n) return;
+  S.items.push({ n, d: "", s: "", k: "" });
+  i.value = "";
+  i.focus();
+  added++;
+  sheetMsg("Přidáno: " + added);
   render();
+}
+function importItems(list) {
+  if (!list.length) return sheetMsg("Žádné položky jsem nenašel.");
+  S.items.push(...list);
+  $("#spaste").value = "";
+  closeSheet();
+  render();
+}
+function loadExcel(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const wb = XLSX.read(new Uint8Array(reader.result), { type: "array" });
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, defval: "" });
+      importItems(rowsToItems(rows));
+    } catch (e) {
+      sheetMsg("Soubor se nepodařilo přečíst.");
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value = "";
 }
 // ======== Signature pad ========
 function pads() {
@@ -1092,7 +1291,7 @@ function zapis() {
     `<div class="z"><div style="text-align:center"><img src="${LOGO_D}" style="width:135px"></div>
 <div style="text-align:center;font:700 18.7px 'Times New Roman',Times,serif;margin:4px 0 0">Zápis o průběhu kontroly Foodservice</div><div style="border-top:2px dashed #000;margin:4px 0 6px"></div>
 <p style="text-align:center;font-weight:700;text-decoration:underline;font-size:10.3px;white-space:nowrap;margin-bottom:22px">Fyzická kontrola se provádí vždy fyzickým přepočtem osobně některým z členů inventurní komise.</p>
-${fr("Příkaz k provedení fyzické inventury (FI) č.:", S.prikaz || psug())}${fr("Na provozovně (číslo stř.):", S.prov)}${fr("Adresa provozovny:", S.adr)}${fr("Store manažer:", S.manazer)}
+${fr("Příkaz k provedení fyzické inventury (FI) č.:", psug())}${fr("Na provozovně (číslo stř.):", S.prov)}${fr("Adresa provozovny:", S.adr)}${fr("Store manažer:", S.manazer)}
 <div style="display:flex;gap:30px;margin-bottom:6px">${dt("Počátek kontroly", S.start)}${dt("Konec kontroly", S.end)}</div>
 <div class="h">1.&nbsp;&nbsp;&nbsp;INVENTURA POKLADNÍ HOTOVOSTI</div>
 <table style="border-collapse:collapse;margin-bottom:14px"><tr>${lb("Stav hotovosti v systému")}${g(N(S.hs) !== null ? fmt(N(S.hs)) + " Kč" : "")}</tr><tr>${lb("Stav hotovosti fyzicky")}${g(N(S.hf) !== null ? fmt(N(S.hf)) + " Kč" : "")}</tr><tr>${lb("Rozdíl")}${g(hd())}</tr></table>
@@ -1139,7 +1338,7 @@ async function gen(kind) {
       msg.textContent = "Hotovo.";
     } else {
       pdf.save(fn);
-      msg.textContent = "Hotovo (pokud se soubor nestáhl, otevřete aplikaci v prohlížeči).";
+      msg.textContent = "Hotovo.";
     }
   } catch (e) {
     msg.textContent =
@@ -1154,8 +1353,7 @@ document.addEventListener("input", (e) => {
   const t = e.target;
   if (t.dataset.k && t.tagName !== "CANVAS") {
     S[t.dataset.k] = t.value;
-    if (t.dataset.k === "prikaz") S.pkM = 1;
-    if (t.dataset.k === "vkon") S.vkM = 1;
+    if (t.dataset.k === "vkon") S.vkM = t.value.trim() ? 1 : 0;
     if (t.dataset.k === "dil" && !S.vkM) {
       S.vkon = auto();
       const v = $("[data-k=vkon]");
@@ -1173,24 +1371,34 @@ document.addEventListener("input", (e) => {
     save();
   }
 });
-let lastE = null;
+let lastE = null,
+  lastC = null;
 document.addEventListener("focusin", (e) => {
   if (e.target.dataset && e.target.dataset.ei !== undefined) lastE = e.target;
+  if (e.target.dataset && e.target.dataset.ec !== undefined) lastC = e.target;
 });
 document.addEventListener("change", (e) => {
   if (e.target.dataset.ei !== undefined) commit(e.target);
   else if (e.target.dataset.ec !== undefined) commitCash(e.target);
+  else if (e.target.id === "sf") loadExcel(e.target);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target.id === "sn") {
+    e.preventDefault();
+    addManual();
+  } else if (e.key === "Escape") closeSheet();
 });
 document.addEventListener("mousedown", (e) => {
   if (e.target.closest("[data-sg]")) e.preventDefault();
 });
 document.addEventListener("click", (e) => {
+  if (e.target.id === "sheet-bg") return closeSheet();
   const t = e.target.closest("button");
   if (!t) return;
   const d = t.dataset;
   if (d.t) {
     S.typ = d.t;
-    render();
+    go("prep");
   } else if (d.fl !== undefined) {
     setFlt(d.fl);
   } else if (d.del !== undefined) {
@@ -1205,11 +1413,14 @@ document.addEventListener("click", (e) => {
         ? lastE && rw.contains(lastE)
           ? lastE
           : rw.querySelector('[data-ef="s"]')
-        : t.parentElement.querySelector("input"),
+        : lastC && lastC.isConnected
+          ? lastC
+          : $('[data-ec="hf"]'),
       v = q.value.replace(/^[+=-]/, "");
     q.value = (q.value[0] === d.sg ? "" : d.sg) + v;
     q.focus();
-    lastE = q;
+    if (rw) lastE = q;
+    else lastC = q;
   } else if (d.rst) {
     const [i, f] = d.rst.split(":");
     S.items[+i][f] = "";
@@ -1230,19 +1441,12 @@ document.addEventListener("click", (e) => {
     S.typ = "";
     render();
   } else if (d.a === "reset") resetAsk(t);
-  else if (d.a === "imp") imp();
+  else if (d.a === "sopen") openSheet();
+  else if (d.a === "sclose") closeSheet();
+  else if (d.a === "sadd") addManual();
+  else if (d.a === "simp") importItems(parseText($("#spaste").value));
   else if (d.a === "clr") {
     S.items = [];
-    render();
-  } else if (d.a === "add") {
-    const n = $("#an").value.trim();
-    if (n) {
-      S.items.push({ n, d: $("#ad") ? String(N($("#ad").value) ?? 0) : "", s: "", k: "" });
-      render();
-    }
-  } else if (d.a === "auto") {
-    S.vkon = auto();
-    S.vkM = 0;
     render();
   } else if (d.a === "gs") gen("s");
   else if (d.a === "gz") gen("z");
