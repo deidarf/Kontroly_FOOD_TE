@@ -2,10 +2,10 @@
 <html lang="cs"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kontroly zásob</title>
-<meta name="color-scheme" content="light"><meta name="theme-color" content="#f3f3f6">
+<meta name="color-scheme" content="light"><meta name="theme-color" content="#f6f5fb">
 <style>
 :root {
-  --bg: #f3f3f6;
+  --bg: #f6f5fb;
   --card: #fff;
   --ink: #1f1b2e;
   --mut: #7a7690;
@@ -31,7 +31,12 @@ body {
   margin: 0;
 }
 body {
-  background: var(--bg);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 0 0, #ebe4ff 0, transparent 42%),
+    radial-gradient(circle at 100% 38%, #e4f4ea 0, transparent 38%),
+    radial-gradient(circle at 12% 100%, #fdeae1 0, transparent 40%), var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   font:
     16px/1.45 system-ui,
@@ -126,7 +131,7 @@ h3 {
   margin-bottom: 14px;
   padding: 20px;
   border-radius: 24px;
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  background: linear-gradient(135deg, #5b2a9e, #6d3fd1);
   color: #fff;
 }
 .hero > div:first-child {
@@ -152,59 +157,6 @@ h3 {
   margin-top: 14px;
   background: #fff;
   color: var(--brand);
-}
-.cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.cards .c:last-child:nth-child(odd) {
-  grid-column: 1/-1;
-}
-.c {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-height: 112px;
-  padding: 16px;
-  margin: 0;
-  border: 0;
-  border-radius: 20px;
-  background: var(--card);
-  box-shadow: var(--sh);
-  color: var(--ink);
-  text-align: left;
-  font: inherit;
-  cursor: pointer;
-  transition: transform 0.12s;
-}
-.c:active {
-  transform: scale(0.97);
-}
-.c span {
-  color: var(--mut);
-  font-size: 14px;
-  font-weight: 600;
-}
-.c b {
-  margin-top: auto;
-  font-size: 30px;
-  line-height: 1.1;
-  font-weight: 800;
-  color: var(--brand);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.c.warn b {
-  color: var(--badInk);
-}
-.c small {
-  color: var(--mut);
-  font-size: 12.5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .li2 {
   display: flex;
@@ -283,14 +235,20 @@ button.link {
   gap: 12px;
 }
 button.big {
-  height: 112px;
+  height: 104px;
   margin: 0;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
-  font-size: 28px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: 0.06em;
+}
+button.big.blue {
+  background: #dfeafe;
+}
+button.big.peach {
+  background: #fde6dc;
 }
 .two {
   display: flex;
@@ -333,40 +291,6 @@ button.big {
   background: var(--pill);
   color: var(--brand);
 }
-.tabbar .gap {
-  position: relative;
-  flex: 0 0 0;
-  transition: flex-basis 0.2s;
-}
-.tabbar.has-plus > button {
-  padding-right: 0;
-  padding-left: 0;
-  font-size: 11px;
-}
-.tabbar.has-plus .gap {
-  flex-basis: 64px;
-}
-.tabbar .plus {
-  position: absolute;
-  top: -34px;
-  left: 50%;
-  display: none;
-  width: 64px;
-  height: 64px;
-  min-height: 0;
-  padding: 0;
-  transform: translateX(-50%);
-  border: 7px solid var(--bg);
-  border-radius: 50%;
-  background: var(--brand);
-  color: #fff;
-  font-size: 32px;
-  line-height: 1;
-}
-.tabbar.has-plus .plus {
-  display: grid;
-  place-items: center;
-}
 .strip {
   position: sticky;
   top: 0;
@@ -378,7 +302,9 @@ button.big {
   flex-wrap: wrap;
   margin-bottom: 4px;
   padding: 10px 0;
-  background: var(--bg);
+  background: rgba(246, 245, 251, 0.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 .fl {
   display: flex;
@@ -692,62 +618,6 @@ input[type="datetime-local"]::-webkit-date-and-time-value {
   opacity: 0;
   pointer-events: none;
 }
-html.purple {
-  background: #5846c8;
-}
-html.purple body {
-  min-height: 100vh;
-  background:
-    repeating-radial-gradient(
-        circle at 92% 4%,
-        rgba(255, 255, 255, 0.05) 0 1.5px,
-        transparent 1.5px 34px
-      )
-      fixed,
-    linear-gradient(180deg, #5846c8 0%, #4f3dae 100%) fixed;
-}
-html.purple .top img {
-  height: 34px;
-  padding: 4px 10px;
-  border-radius: 10px;
-  background: #fff;
-  mix-blend-mode: normal;
-}
-html.purple h1.big,
-html.purple .sec-h {
-  color: #fff;
-}
-html.purple .sub {
-  color: rgba(255, 255, 255, 0.78);
-}
-html.purple .hero,
-html.purple .c,
-html.purple button.big {
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: none;
-  color: #fff;
-}
-html.purple .c span,
-html.purple .c small,
-html.purple .label,
-html.purple .mut {
-  color: rgba(255, 255, 255, 0.72);
-}
-html.purple .c b {
-  color: #fff;
-}
-html.purple .c.warn b,
-html.purple .li2 .val {
-  color: #ffb4a8;
-}
-html.purple .li2 {
-  border-color: rgba(255, 255, 255, 0.18);
-  color: #fff;
-}
-html.purple .hero button {
-  background: #fff;
-  color: var(--brand);
-}
 .center {
   display: flex;
   flex-direction: column;
@@ -758,23 +628,91 @@ html.purple .hero button {
   margin-top: 0;
   text-align: center;
 }
-html.purple .tabbar {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: none;
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-}
-html.purple .tabbar button {
-  color: rgba(255, 255, 255, 0.72);
-}
-html.purple .tabbar button.on {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
 button.big.ask {
   font-size: 15px;
   line-height: 1.3;
+}
+.r2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 0;
+  margin: 0 0 10px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--sh);
+  color: var(--ink);
+  text-align: left;
+  font-weight: 400;
+}
+.r2 b {
+  display: block;
+  font-size: 16px;
+}
+.r2 small {
+  color: var(--mut);
+  font-size: 13px;
+}
+.r2 .v {
+  color: var(--brand);
+  font-size: 20px;
+  font-weight: 800;
+}
+.r2 .v.warn {
+  color: var(--badInk);
+}
+.mini {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: conic-gradient(var(--brand) calc(var(--p) * 1%), #e9e5f5 0);
+  font-size: 12px;
+  font-weight: 800;
+}
+.mini::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: #fff;
+}
+.mini span {
+  position: relative;
+}
+.tabbar.has-plus {
+  background: radial-gradient(circle 42px at 50% 0, transparent 41px, #fff 42px);
+}
+.tabbar.has-plus > button {
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 11px;
+}
+.tabbar .gap {
+  position: relative;
+  flex: 0 0 76px;
+  justify-content: flex-end;
+  color: var(--brand);
+}
+.tabbar .plus {
+  position: absolute;
+  top: -27px;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(91, 42, 158, 0.4);
 }
 .pg {
   width: 794px;
@@ -962,10 +900,15 @@ const tabs = () => [
   ["home", "Přehled"],
   ["prep", "Příprava"],
   ["kon", "Kontrola"],
-  ...(food() ? [["zap", "Zápis"]] : []),
   ["fin", "Dokončení"],
 ];
-const finSteps = () => ["kom", "pds", ...((S.manazer || "").trim() ? ["pdm"] : []), "vys"];
+const finSteps = () => [
+  ...(food() ? ["zap"] : []),
+  "kom",
+  "pds",
+  ...((S.manazer || "").trim() ? ["pdm"] : []),
+  "vys",
+];
 const N = (v) => {
   const x = parseFloat(
     String(v ?? "")
@@ -1013,15 +956,12 @@ const greet = () => {
 };
 const today = () =>
   new Date().toLocaleDateString("cs-CZ", { weekday: "long", day: "numeric", month: "long" });
-const card = (to, label, val, sub, flt = "", cls = "") =>
-  `<button class="c ${cls}" data-a="tab" data-to="${to}" data-flt="${flt}"><span>${label}</span><b>${val}</b><small>${sub}</small></button>`;
 const entC = (k, l) =>
   `<div class="cash"><div class="eh"><small>${l}</small><span class="st"><b id="c${k}">${N(S[k]) === null ? "–" : fmt(N(S[k]))}</b><button class="sec" data-rstc="${k}" aria-label="Smazat stav">×</button></span></div><input inputmode="decimal" placeholder="zadat" aria-label="${l}" data-ec="${k}"></div>`;
 const ICONS = {
   home: '<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   prep: '<path d="M4 6h16M4 12h16M4 18h10"/>',
   kon: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
-  zap: '<path d="M7 3h8l4 4v14H7zM14 3v5h5M10 13h6M10 17h6"/>',
   fin: '<path d="M4 20l1-4L17 4l3 3L8 19zM14 7l3 3"/>',
 };
 const PLUS =
@@ -1039,7 +979,9 @@ const V = {
       need = (S.manazer || "").trim() ? 2 : 1,
       sg = (S.sp ? 1 : 0) + (S.sm ? 1 : 0),
       head = `<h1 class="big">${greet()}</h1><p class="sub">${today()}</p>`,
-      startNew = `<h2 class="sec-h">Nová kontrola</h2><div class="tiles"><button class="big" data-new="food">FOOD</button><button class="big" data-new="te">TE</button></div>`;
+      startNew = `<h2 class="sec-h">Nová kontrola</h2><div class="tiles"><button class="big blue" data-new="food">FOOD</button><button class="big peach" data-new="te">TE</button></div>`,
+      row = (to, fs, title, sub, right, flt = "") =>
+        `<button class="r2" data-a="tab" data-to="${to}" data-fs="${fs}" data-flt="${flt}"><span><b>${title}</b><small>${sub}</small></span>${right}</button>`;
     if (!S.typ) return head + `<div class="center">${startNew}</div>`;
     const list = bad.length
       ? bad
@@ -1054,7 +996,26 @@ const V = {
       head +
       `<div class="hero"><div><small>Rozpracovaná kontrola</small><b>${E(S.adr) || "Bez názvu"}</b><span>Chybí ${100 - pct} % · ${done} z ${a.length} položek</span><button data-a="tab" data-to="kon">Pokračovat</button></div><div class="ring" style="--p:${pct}"><span>${pct} %</span></div></div>` +
       startNew +
-      `<h2 class="sec-h">Přehled</h2><div class="cards">${card("prep", "Položky", a.length, "v soupisu")}${card("kon", "Rozdíly", bad.length, "k vysvětlení", "bad", bad.length ? "warn" : "")}${food() ? card("zap", "Zápis", hd() || "–", "rozdíl hotovosti") : ""}${card("fin", "Podpisy", sg + "/" + need, "předseda · manažer")}</div>` +
+      `<h2 class="sec-h">Přehled</h2>` +
+      row(
+        "kon",
+        "",
+        "Vyplněno",
+        `${done} z ${a.length} položek`,
+        `<span class="mini" style="--p:${pct}"><span>${pct} %</span></span>`,
+      ) +
+      row(
+        "kon",
+        "",
+        "Rozdíly",
+        "k vysvětlení",
+        `<span class="v${bad.length ? " warn" : ""}">${bad.length}</span>`,
+        "bad",
+      ) +
+      (food()
+        ? row("fin", "zap", "Zápis", "rozdíl hotovosti", `<span class="v">${hd() || "–"}</span>`)
+        : "") +
+      row("fin", "pds", "Podpisy", "předseda · manažer", `<span class="v">${sg}/${need}</span>`) +
       `<p class="label">K vysvětlení</p>${list}`
     );
   },
@@ -1068,6 +1029,7 @@ const V = {
   fin: () => {
     const fs = finSteps(),
       i = Math.min(fin, fs.length - 1);
+    if (fs[i] === "zap" && !S.vkM) S.vkon = auto();
     return (
       `<h1 class="h">Dokončení</h1><p class="sub">Krok ${i + 1} z ${fs.length}</p>` +
       V[fs[i]]() +
@@ -1088,10 +1050,10 @@ const V = {
           `<div class="row" id="r${i}"><div class="rh"><b><span class="no">${i + 1}</span>${E(it.n)}</b><span class="chip" id="res${i}"></span></div><div class="g">${ent(i, "d", "Dispozice")}${ent(i, "s", "Skutečnost")}</div><div class="g2"><div class="pm"><button class="sec" data-sg="+">+</button><button class="sec" data-sg="-">−</button></div><input class="kom" placeholder="Komentář" data-i="${i}" data-f="k" value="${E(it.k)}"></div></div>`,
       )
       .join("") +
-    `<button class="wide" data-a="tab" data-to="${food() ? "zap" : "fin"}">Pokračovat</button>`,
-  zap: () => `<h1 class="h">Zápis</h1><div class="card"><h2>Průběh kontroly</h2>${f("start", "Počátek kontroly", "datetime-local")}${f("end", "Konec kontroly", "datetime-local")}</div>
+    `<button class="wide" data-a="tab" data-to="fin">Pokračovat</button>`,
+  zap: () => `<div class="card"><h2>Průběh kontroly</h2>${f("start", "Počátek kontroly", "datetime-local")}${f("end", "Konec kontroly", "datetime-local")}</div>
 <div class="card"><h3>Inventura pokladní hotovosti</h3>${entC("hs", "Stav hotovosti v systému (Kč)")}${entC("hf", "Stav hotovosti fyzicky (Kč)")}<div class="pmc"><button class="sec" data-sg="+">+</button><button class="sec" data-sg="-">−</button></div><p>Rozdíl: <b id="hd">${hd()}</b></p>${ta("vhot", "Vyjádření k pokladní hotovosti")}</div>
-<div class="card"><h3>Fyzická kontrola zboží</h3>${f("dil", "Provedena dílčí inventura č.")}${ta("vkon", "Vyjádření ke kontrole", 6)}</div><button class="wide" data-a="tab" data-to="fin">Pokračovat</button>`,
+<div class="card"><h3>Fyzická kontrola zboží</h3>${f("dil", "Provedena dílčí inventura č.")}${ta("vkon", "Vyjádření ke kontrole", 6)}</div>`,
   kom: () =>
     `<div class="card"><h2>Komise</h2><p class="mut">Kdo kontrolu provedl. Podpisy následují v dalších krocích.</p>${f("predseda", "Předseda IK (kontrolující) – jméno a příjmení")}${f("manazer", "Manažer " + nm() + " – jméno a příjmení (pokud je přítomen)")}${food() ? ta("clenove", "Další členové komise (každý na nový řádek)", 2) : ""}</div>`,
   pds: () => sigv("sp", "Podpis předsedy IK", S.predseda),
@@ -1118,16 +1080,14 @@ function render() {
     ([id, l]) =>
       `<button data-a="tab" data-to="${id}" class="${id === tab ? "on" : ""}">${icon(id)}<span>${l}</span></button>`,
   );
-  btns.splice(
-    2,
-    0,
-    `<div class="gap"><button class="plus" data-a="sopen" aria-label="Přidat položky">${PLUS}</button></div>`,
-  );
+  if (tab === "prep")
+    btns.splice(
+      2,
+      0,
+      `<button class="gap" data-a="sopen" aria-label="Přidat položky"><span class="plus">${PLUS}</span><span class="pl">Přidat</span></button>`,
+    );
   $("#tabs").innerHTML = btns.join("");
   $("#tabs").classList.toggle("has-plus", tab === "prep");
-  const purple = tab === "home";
-  document.documentElement.classList.toggle("purple", purple);
-  $('meta[name="theme-color"]').content = purple ? "#5846c8" : "#f3f3f6";
   if (tab === "kon") S.items.forEach((_, i) => upd(i));
   if (cur === "pds" || cur === "pdm") pads();
   save();
@@ -1187,7 +1147,6 @@ function commitCash(t) {
 function go(t) {
   tab = t;
   if (t === "kon" && food() && !S.start) S.start = now();
-  if (t === "zap" && !S.vkM) S.vkon = auto();
   render();
   scrollTo(0, 0);
 }
@@ -1562,6 +1521,10 @@ document.addEventListener("click", (e) => {
   } else if (d.a === "tab") {
     go(d.to);
     if (d.flt) setFlt(d.flt);
+    if (d.fs) {
+      fin = Math.max(0, finSteps().indexOf(d.fs));
+      render();
+    }
   } else if (d.a === "fnext" || d.a === "fprev") {
     fin = Math.max(0, Math.min(finSteps().length - 1, fin + (d.a === "fnext" ? 1 : -1)));
     render();
