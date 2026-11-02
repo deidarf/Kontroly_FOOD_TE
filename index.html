@@ -283,15 +283,14 @@ button.link {
   gap: 12px;
 }
 button.big {
-  height: 130px;
+  height: 112px;
   margin: 0;
-  border-radius: 22px;
-  background: var(--card);
-  box-shadow: var(--sh);
-  color: var(--brand);
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 .two {
   display: flex;
@@ -365,7 +364,8 @@ button.big {
   line-height: 1;
 }
 .tabbar.has-plus .plus {
-  display: block;
+  display: grid;
+  place-items: center;
 }
 .strip {
   position: sticky;
@@ -576,21 +576,28 @@ input[type="datetime-local"]::-webkit-date-and-time-value {
   font-weight: 800;
 }
 .ring {
+  position: relative;
   flex: none;
   display: grid;
   place-items: center;
   width: 92px;
   height: 92px;
+}
+.ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   background: conic-gradient(#fff calc(var(--p) * 1%), rgba(255, 255, 255, 0.28) 0);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 10px),
+    #000 calc(100% - 9px)
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 calc(100% - 9px));
 }
 .ring span {
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--brand2);
+  position: relative;
   font-size: 18px;
   font-weight: 800;
   opacity: 1;
@@ -618,6 +625,10 @@ input[type="datetime-local"]::-webkit-date-and-time-value {
   font-size: 32px;
   line-height: 1;
   box-shadow: 0 8px 20px rgba(91, 42, 158, 0.4);
+}
+.fab {
+  display: grid;
+  place-items: center;
 }
 .fab[hidden],
 .sheet[hidden] {
@@ -682,11 +693,18 @@ input[type="datetime-local"]::-webkit-date-and-time-value {
   pointer-events: none;
 }
 html.purple {
-  background: #5a2a9e;
+  background: #5846c8;
 }
 html.purple body {
   min-height: 100vh;
-  background: linear-gradient(165deg, #4b2088 0%, #6b34b4 55%, #8a4fd1 100%) fixed;
+  background:
+    repeating-radial-gradient(
+        circle at 92% 4%,
+        rgba(255, 255, 255, 0.05) 0 1.5px,
+        transparent 1.5px 34px
+      )
+      fixed,
+    linear-gradient(180deg, #5846c8 0%, #4f3dae 100%) fixed;
 }
 html.purple .top img {
   height: 34px;
@@ -701,6 +719,62 @@ html.purple .sec-h {
 }
 html.purple .sub {
   color: rgba(255, 255, 255, 0.78);
+}
+html.purple .hero,
+html.purple .c,
+html.purple button.big {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+  color: #fff;
+}
+html.purple .c span,
+html.purple .c small,
+html.purple .label,
+html.purple .mut {
+  color: rgba(255, 255, 255, 0.72);
+}
+html.purple .c b {
+  color: #fff;
+}
+html.purple .c.warn b,
+html.purple .li2 .val {
+  color: #ffb4a8;
+}
+html.purple .li2 {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+html.purple .hero button {
+  background: #fff;
+  color: var(--brand);
+}
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 360px);
+}
+.center .sec-h {
+  margin-top: 0;
+  text-align: center;
+}
+html.purple .tabbar {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+html.purple .tabbar button {
+  color: rgba(255, 255, 255, 0.72);
+}
+html.purple .tabbar button.on {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+button.big.ask {
+  font-size: 15px;
+  line-height: 1.3;
 }
 .pg {
   width: 794px;
@@ -807,7 +881,7 @@ html.purple .sub {
 </style></head><body>
 <header class="top"><img id="lg" alt="Lagardère"><span id="pr"></span></header>
 <main id="m"></main>
-<button class="fab" id="fab" data-a="sopen" aria-label="Přidat položky" hidden>+</button>
+<button class="fab" id="fab" data-a="sopen" aria-label="Přidat položky" hidden><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <nav class="tabbar" id="tabs"></nav>
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-bg" id="sheet-bg"></div>
@@ -818,8 +892,6 @@ html.purple .sub {
     <p class="mut" id="smsg"></p>
     <hr>
     <label class="filebtn">Nahrát Excel<input class="vh" id="sf" type="file" accept=".xlsx,.xls,.csv"></label>
-    <label>Nebo vložit text (jeden název na řádek)<textarea id="spaste" rows="3"></textarea></label>
-    <button class="sec wide" data-a="simp">Načíst vložený text</button>
   </div>
 </div>
 <div id="stage"></div>
@@ -952,6 +1024,8 @@ const ICONS = {
   zap: '<path d="M7 3h8l4 4v14H7zM14 3v5h5M10 13h6M10 17h6"/>',
   fin: '<path d="M4 20l1-4L17 4l3 3L8 19zM14 7l3 3"/>',
 };
+const PLUS =
+  '<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 const icon = (id) =>
   `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[id]}</svg>`;
 
@@ -964,12 +1038,9 @@ const V = {
       pct = a.length ? Math.round((done / a.length) * 100) : 0,
       need = (S.manazer || "").trim() ? 2 : 1,
       sg = (S.sp ? 1 : 0) + (S.sm ? 1 : 0),
-      head = `<h1 class="big">${greet()}</h1><p class="sub">${today()}</p>`;
-    if (!S.typ)
-      return (
-        head +
-        `<h2 class="sec-h">Nová kontrola</h2><div class="tiles"><button class="big" data-t="food">FOOD</button><button class="big" data-t="te">TE</button></div>`
-      );
+      head = `<h1 class="big">${greet()}</h1><p class="sub">${today()}</p>`,
+      startNew = `<h2 class="sec-h">Nová kontrola</h2><div class="tiles"><button class="big" data-new="food">FOOD</button><button class="big" data-new="te">TE</button></div>`;
+    if (!S.typ) return head + `<div class="center">${startNew}</div>`;
     const list = bad.length
       ? bad
           .slice(0, 6)
@@ -982,20 +1053,18 @@ const V = {
     return (
       head +
       `<div class="hero"><div><small>Rozpracovaná kontrola</small><b>${E(S.adr) || "Bez názvu"}</b><span>Chybí ${100 - pct} % · ${done} z ${a.length} položek</span><button data-a="tab" data-to="kon">Pokračovat</button></div><div class="ring" style="--p:${pct}"><span>${pct} %</span></div></div>` +
-      `<div class="cards">${card("prep", "Položky", a.length, "v soupisu")}${card("kon", "Rozdíly", bad.length, "k vysvětlení", "bad", bad.length ? "warn" : "")}${food() ? card("zap", "Zápis", hd() || "–", "rozdíl hotovosti") : ""}${card("fin", "Podpisy", sg + "/" + need, "předseda · manažer")}</div>` +
-      `<p class="label">K vysvětlení</p>${list}<button class="link" data-a="reset">Nová kontrola (smazat rozpracované)</button>`
+      startNew +
+      `<h2 class="sec-h">Přehled</h2><div class="cards">${card("prep", "Položky", a.length, "v soupisu")}${card("kon", "Rozdíly", bad.length, "k vysvětlení", "bad", bad.length ? "warn" : "")}${food() ? card("zap", "Zápis", hd() || "–", "rozdíl hotovosti") : ""}${card("fin", "Podpisy", sg + "/" + need, "předseda · manažer")}</div>` +
+      `<p class="label">K vysvětlení</p>${list}`
     );
   },
   prep: () =>
     '<h1 class="h">Příprava</h1>' +
-    (S.typ
-      ? V.hlav() +
-        V.pol() +
-        (S.items.length
-          ? '<button class="wide" data-a="tab" data-to="kon">Začít kontrolu</button>'
-          : "") +
-        '<button class="link" data-a="rtyp">Změnit typ kontroly</button>'
-      : V.typ()),
+    V.hlav() +
+    V.pol() +
+    (S.items.length
+      ? '<button class="wide" data-a="tab" data-to="kon">Začít kontrolu</button>'
+      : ""),
   fin: () => {
     const fs = finSteps(),
       i = Math.min(fin, fs.length - 1);
@@ -1005,8 +1074,6 @@ const V = {
       `<div class="two">${i ? '<button class="sec" data-a="fprev">Zpět</button>' : ""}${i < fs.length - 1 ? '<button data-a="fnext">Další</button>' : ""}</div>`
     );
   },
-  typ: () =>
-    `<div class="tiles"><button class="big" data-t="food">FOOD</button><button class="big" data-t="te">TE</button></div>`,
   hlav: () =>
     `<div class="card"><h2>Hlavička kontroly</h2>${f("prov", "Číslo " + nm(), "text")}${f("adr", food() ? "Adresa provozovny" : "Název prodejny")}${f("datum", "Datum kontroly", "date")}${food() ? f("soupis", "Číslo soupisu", "text", sug()) : ""}</div>`,
   pol: () =>
@@ -1039,7 +1106,7 @@ const V = {
 
 // ======== Rendering and navigation ========
 function render() {
-  if (!S.typ && tab !== "home" && tab !== "prep") tab = "prep";
+  if (!S.typ && tab !== "home") tab = "home";
   const tb = tabs();
   if (!tb.some((t) => t[0] === tab)) tab = "home";
   const cur = tab === "fin" ? finSteps()[Math.min(fin, finSteps().length - 1)] : "";
@@ -1054,13 +1121,13 @@ function render() {
   btns.splice(
     2,
     0,
-    '<div class="gap"><button class="plus" data-a="sopen" aria-label="Přidat položky">+</button></div>',
+    `<div class="gap"><button class="plus" data-a="sopen" aria-label="Přidat položky">${PLUS}</button></div>`,
   );
   $("#tabs").innerHTML = btns.join("");
   $("#tabs").classList.toggle("has-plus", tab === "prep");
-  const purple = tab === "home" && !S.typ;
+  const purple = tab === "home";
   document.documentElement.classList.toggle("purple", purple);
-  $('meta[name="theme-color"]').content = purple ? "#4b2088" : "#f3f3f6";
+  $('meta[name="theme-color"]').content = purple ? "#5846c8" : "#f3f3f6";
   if (tab === "kon") S.items.forEach((_, i) => upd(i));
   if (cur === "pds" || cur === "pdm") pads();
   save();
@@ -1145,26 +1212,6 @@ function auto() {
 }
 
 // ======== Import / export between devices ========
-/** Parses pasted text: one item per line, optionally "name<TAB>dispozice". */
-function parseText(text) {
-  const out = [];
-  text.split("\n").forEach((l) => {
-    l = l.replace(/\r/, "").trim();
-    if (!l) return;
-    const c = l.split("\t");
-    let n, d;
-    if (c.length > 1) {
-      n = (c.length > 2 && /^\d+$/.test(c[0].trim()) ? c[1] : c[0]).trim();
-      d = c[c.length - 1];
-    } else {
-      n = l;
-      d = "";
-    }
-    if (n && (d === "" || N(d) !== null))
-      out.push({ n, d: d === "" ? "" : String(N(d)), s: "", k: "" });
-  });
-  return out;
-}
 const isNum = (x) =>
   typeof x === "number" ||
   (typeof x === "string" && /^[-+]?[\d\s.,]+$/.test(x.trim()) && N(x) !== null);
@@ -1207,7 +1254,6 @@ function addManual() {
 function importItems(list) {
   if (!list.length) return sheetMsg("Žádné položky jsem nenašel.");
   S.items.push(...list);
-  $("#spaste").value = "";
   closeSheet();
   render();
 }
@@ -1463,8 +1509,24 @@ document.addEventListener("click", (e) => {
   const t = e.target.closest("button");
   if (!t) return;
   const d = t.dataset;
-  if (d.t) {
-    S.typ = d.t;
+  if (d.new) {
+    if (S.items.length && armedNew !== d.new) {
+      armedNew = d.new;
+      t.textContent = "Smazat rozpracované? Klepněte znovu";
+      t.classList.add("ask");
+      setTimeout(() => {
+        armedNew = "";
+        if (t.isConnected) {
+          t.textContent = d.new === "food" ? "FOOD" : "TE";
+          t.classList.remove("ask");
+        }
+      }, 4000);
+      return;
+    }
+    S = fresh();
+    S.typ = d.new;
+    armedNew = "";
+    fin = 0;
     go("prep");
   } else if (d.fl !== undefined) {
     setFlt(d.fl);
@@ -1504,21 +1566,18 @@ document.addEventListener("click", (e) => {
     fin = Math.max(0, Math.min(finSteps().length - 1, fin + (d.a === "fnext" ? 1 : -1)));
     render();
     scrollTo(0, 0);
-  } else if (d.a === "rtyp") {
-    S.typ = "";
-    render();
   } else if (d.a === "reset") resetAsk(t);
   else if (d.a === "sopen") openSheet();
   else if (d.a === "sclose") closeSheet();
   else if (d.a === "sadd") addManual();
-  else if (d.a === "simp") importItems(parseText($("#spaste").value));
   else if (d.a === "clr") {
     S.items = [];
     render();
   } else if (d.a === "gs") gen("s");
   else if (d.a === "gz") gen("z");
 });
-let armed = 0;
+let armed = 0,
+  armedNew = "";
 function resetAsk(btn) {
   if (!armed) {
     armed = 1;
