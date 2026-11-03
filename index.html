@@ -699,6 +699,7 @@ button.big.ask {
     Arial,
     sans-serif;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .xl table {
   border-collapse: collapse;
@@ -720,8 +721,10 @@ button.big.ask {
 }
 .xl th {
   border: 1px solid #000;
-  font-size: 15.3px;
-  padding: 0 3px;
+  font-size: 14.5px;
+  padding: 0 2px;
+  overflow: hidden;
+  white-space: nowrap;
   text-align: center;
 }
 .xl .n {
@@ -769,7 +772,14 @@ button.big.ask {
   min-height: 17px;
   padding: 0 4px;
 }
+.z .vv {
+  font-weight: 700;
+  font-size: 13.3px;
+}
 .z .dl {
+  padding: 0 4px;
+  font-weight: 700;
+  font-size: 13.3px;
   border-bottom: 1px dotted #000;
   min-height: 22px;
   line-height: 22px;
@@ -778,8 +788,8 @@ button.big.ask {
 .z td {
   border: 1px solid #000;
   padding: 3px 6px;
-  font-size: 11px;
-  height: 24px;
+  font-size: 13.3px;
+  height: 40px;
   vertical-align: middle;
 }
 </style></head><body>
@@ -1098,17 +1108,12 @@ function setFlt(v) {
     .forEach((b) => b.classList.toggle("on", b.dataset.fl === v));
 }
 function auto() {
-  const t = S.items.filter((i) => N(i.s) !== null).length,
-    d = S.items.filter(isBad).map((i) => i.n + ": " + fmt(diff(i)));
-  return (
-    "Zkontrolováno položek: " +
-    t +
-    "." +
-    (d.length
-      ? " Položek s rozdílem: " + d.length + ":\n" + d.join("\n")
-      : " Nebyl zjištěn žádný rozdíl.") +
-    ((S.dil || "").trim() ? "\nProvedena dílčí inventura č. " + S.dil.trim() + "." : "")
-  );
+  const dif = S.items.filter((i) => diff(i) !== null && N(i.s) !== null && diff(i) !== 0),
+    bad = S.items.filter(isBad),
+    din = (S.dil || "").trim() ? "Provedena dílčí inventura č. " + S.dil.trim() + "." : "";
+  if (bad.length) return bad.map((i) => i.n + ": " + fmt(diff(i))).join("\n") + (din ? "\n" + din : "");
+  if (dif.length) return "Drobné rozdíly - OK";
+  return "Nebyl zjištěn žádný rozdíl." + (din ? "\n" + din : "");
 }
 
 // ======== Import / export between devices ========
@@ -1183,7 +1188,7 @@ function pads() {
     c.width = w * 2;
     c.height = h * 2;
     x.scale(2, 2);
-    x.lineWidth = 2.2;
+    x.lineWidth = 3;
     x.lineCap = "round";
     x.strokeStyle = "#111";
     if (S[k]) {
@@ -1236,8 +1241,52 @@ const fS = (i) => {
   const [y, m, d] = i.split("-");
   return +d + "." + +m + "." + y;
 };
+let SC = {};
+const cropSig = (u) =>
+  new Promise((ok) => {
+    if (!u) return ok("");
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = im.width;
+      c.height = im.height;
+      const x = c.getContext("2d");
+      x.drawImage(im, 0, 0);
+      const d = x.getImageData(0, 0, c.width, c.height).data;
+      let a = c.width,
+        b = c.height,
+        e = -1,
+        f = -1;
+      for (let yy = 0; yy < c.height; yy++)
+        for (let xx = 0; xx < c.width; xx++)
+          if (d[(yy * c.width + xx) * 4 + 3] > 20) {
+            if (xx < a) a = xx;
+            if (xx > e) e = xx;
+            if (yy < b) b = yy;
+            if (yy > f) f = yy;
+          }
+      if (e < 0) return ok("");
+      const m = 6,
+        X = Math.max(0, a - m),
+        Y = Math.max(0, b - m),
+        W = Math.min(c.width, e + m) - X,
+        H = Math.min(c.height, f + m) - Y,
+        o = document.createElement("canvas");
+      o.width = W;
+      o.height = H;
+      const g = o.getContext("2d");
+      g.fillStyle = "#fff";
+      g.fillRect(0, 0, W, H);
+      g.drawImage(c, X, Y, W, H, 0, 0, W, H);
+      ok(o.toDataURL("image/png"));
+    };
+    im.onerror = () => ok("");
+    im.src = u;
+  });
+const sgi = (k, mh, mw) =>
+  SC[k] ? `<img src="${SC[k]}" style="max-height:${mh}px;max-width:${mw}px;display:block;margin:0 auto">` : "";
 const sgz = (k, l, b) =>
-  `<div style="flex:1;text-align:center">${S[k] ? `<img src="${S[k]}" style="height:50px;display:block;margin:0 auto">` : '<div style="height:50px"></div>'}<div style="border-top:2px dotted #000;width:230px;margin:0 auto"></div><span style="${b ? "font-weight:700;font-size:13px" : ""}">${l}</span></div>`;
+  `<div style="flex:1;text-align:center"><div style="height:70px;display:flex;align-items:flex-end;justify-content:center;overflow:visible">${sgi(k, 66, 230)}</div><div style="border-top:2px dotted #000;width:230px;margin:0 auto"></div><span style="${b ? "font-weight:700;font-size:13px" : ""}">${l}</span></div>`;
 function soupis() {
   const fd = food(),
     R = fd ? 30 : 33,
@@ -1287,17 +1336,18 @@ function zapis() {
       .map((s) => s.trim())
       .filter(Boolean),
     mem = [];
-  if (S.manazer) mem.push([S.manazer, S.sm]);
+  if (S.manazer) mem.push([S.manazer, "sm"]);
   ex.forEach((x) => mem.push([x, ""]));
-  const im = (s) => (s ? `<img src="${s}" style="height:30px;vertical-align:middle">` : ""),
+  const im = (k) =>
+      k && SC[k] ? `<img src="${SC[k]}" style="max-height:44px;max-width:200px;vertical-align:middle">` : "",
     rows = [
-      ["Předseda: " + E(S.predseda), "Podpis: " + im(S.sp)],
-      ["Členové: " + (mem[0] ? E(mem[0][0]) : ""), mem[0] ? im(mem[0][1]) : ""],
+      ["Předseda: <b>" + E(S.predseda) + "</b>", "Podpis: " + im("sp")],
+      ["Členové: " + (mem[0] ? "<b>" + E(mem[0][0]) + "</b>" : ""), mem[0] ? im(mem[0][1]) : ""],
     ];
-  mem.slice(1).forEach((m) => rows.push([E(m[0]), im(m[1])]));
+  mem.slice(1).forEach((m) => rows.push(["<b>" + E(m[0]) + "</b>", im(m[1])]));
   while (rows.length < 3) rows.push(["", ""]);
   const g = (v) =>
-      `<td style="background:#d9d9d9;text-align:center;font-weight:700;font-size:13px">${v}</td>`,
+      `<td style="background:#d9d9d9;text-align:center;font-weight:700;font-size:13.3px">${v}</td>`,
     lb = (t) =>
       `<td style="width:199px;text-align:center;font-weight:700;font-size:12px;height:38px">${t}</td>`,
     dt = (l, v) =>
@@ -1326,6 +1376,7 @@ async function gen(kind) {
   if (kind === "z" && !S.vkM) S.vkon = auto();
   save();
   try {
+    SC = { sp: await cropSig(S.sp), sm: await cropSig(S.sm) };
     const pages = kind === "s" ? soupis() : zapis(),
       st = $("#stage"),
       { jsPDF } = window.jspdf,
@@ -1335,7 +1386,7 @@ async function gen(kind) {
       const c = await html2canvas(st.firstChild, { scale: 2, backgroundColor: "#fff" }),
         img = c.toDataURL("image/jpeg", 0.92),
         h = (210 * c.height) / c.width;
-      if (kind === "z" && h > 297 && h <= 360) {
+      if (h > 297 && h <= 380) {
         if (i) pdf.addPage();
         const w = (210 * 297) / h;
         pdf.addImage(img, "JPEG", (210 - w) / 2, 0, w, 297);
