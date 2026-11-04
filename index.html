@@ -203,6 +203,17 @@ button.link {
 .two button {
   flex: 1;
 }
+html,
+body,
+.pg,
+.pg * {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body.typ .tabbar,
+body.typ .fab {
+  display: none !important;
+}
 /* ===== Tab bar ===== */
 .tabbar {
   position: fixed;
@@ -789,7 +800,7 @@ button.big.ask {
   border: 1px solid #000;
   padding: 3px 6px;
   font-size: 13.3px;
-  height: 40px;
+  height: 50px;
   vertical-align: middle;
 }
 </style></head><body>
@@ -1050,6 +1061,18 @@ function upd(i) {
     d = diff(it),
     r = $("#r" + i);
   if (!r) return;
+  if (!food() && !it.man && N(it.s) !== null) {
+    const kin = r.querySelector(".kom");
+    if (d === 0 && !it.k) {
+      it.k = "ok";
+      it.ao = 1;
+      if (kin) kin.value = "ok";
+    } else if (d !== 0 && it.ao) {
+      it.k = "";
+      it.ao = 0;
+      if (kin) kin.value = "";
+    }
+  }
   $("#res" + i).textContent = d === null ? "–" : fmt(d);
   const bd = isBad(it);
   r.classList.toggle("bad", bd);
@@ -1111,7 +1134,12 @@ function auto() {
   const dif = S.items.filter((i) => diff(i) !== null && N(i.s) !== null && diff(i) !== 0),
     bad = S.items.filter(isBad),
     din = (S.dil || "").trim() ? "Provedena dílčí inventura č. " + S.dil.trim() + "." : "";
-  if (bad.length) return bad.map((i) => i.n + ": " + fmt(diff(i))).join("\n") + (din ? "\n" + din : "");
+  if (bad.length)
+    return (
+      "Nalezeny rozdíly na položkách:\n" +
+      bad.map((i) => i.n + ": " + fmt(diff(i))).join("\n") +
+      (din ? "\n" + din : "")
+    );
   if (dif.length) return "Drobné rozdíly - OK";
   return "Nebyl zjištěn žádný rozdíl." + (din ? "\n" + din : "");
 }
@@ -1185,10 +1213,11 @@ function pads() {
       x = c.getContext("2d"),
       w = c.offsetWidth,
       h = c.offsetHeight;
-    c.width = w * 2;
-    c.height = h * 2;
-    x.scale(2, 2);
-    x.lineWidth = 3;
+    c.width = w * 3;
+    c.height = h * 3;
+    x.scale(3, 3);
+    x.lineJoin = "round";
+    x.lineWidth = 4.5;
     x.lineCap = "round";
     x.strokeStyle = "#111";
     if (S[k]) {
@@ -1196,7 +1225,8 @@ function pads() {
       im.onload = () => x.drawImage(im, 0, 0, w, h);
       im.src = S[k];
     }
-    let dr = 0;
+    let dr = 0,
+      lp = [0, 0];
     const p = (e) => {
       const r = c.getBoundingClientRect();
       return [e.clientX - r.left, e.clientY - r.top];
@@ -1205,16 +1235,23 @@ function pads() {
       dr = 1;
       c.setPointerCapture(e.pointerId);
       const [a, b] = p(e);
+      lp = [a, b];
       x.beginPath();
       x.moveTo(a, b);
       x.lineTo(a + 0.1, b + 0.1);
       x.stroke();
+      x.beginPath();
+      x.moveTo(a, b);
     };
     c.onpointermove = (e) => {
       if (!dr) return;
-      const [a, b] = p(e);
-      x.lineTo(a, b);
+      const [a, b] = p(e),
+        m = [(a + lp[0]) / 2, (b + lp[1]) / 2];
+      x.quadraticCurveTo(lp[0], lp[1], m[0], m[1]);
       x.stroke();
+      x.beginPath();
+      x.moveTo(m[0], m[1]);
+      lp = [a, b];
     };
     c.onpointerup = () => {
       dr = 0;
@@ -1286,7 +1323,15 @@ const cropSig = (u) =>
 const sgi = (k, mh, mw) =>
   SC[k] ? `<img src="${SC[k]}" style="max-height:${mh}px;max-width:${mw}px;display:block;margin:0 auto">` : "";
 const sgz = (k, l, b) =>
-  `<div style="flex:1;text-align:center"><div style="height:70px;display:flex;align-items:flex-end;justify-content:center;overflow:visible">${sgi(k, 66, 230)}</div><div style="border-top:2px dotted #000;width:230px;margin:0 auto"></div><span style="${b ? "font-weight:700;font-size:13px" : ""}">${l}</span></div>`;
+  `<div style="flex:1;text-align:center"><div style="height:84px;display:flex;align-items:flex-end;justify-content:center;overflow:visible">${sgi(k, 80, 250)}</div><div style="border-top:2px dotted #000;width:230px;margin:0 auto"></div><span style="${b ? "font-weight:700;font-size:13px" : ""}">${l}</span></div>`;
+const fitC = document.createElement("canvas").getContext("2d");
+function fit(t, w, f) {
+  const m = f.match(/([\d.]+)px\s+(.*)/),
+    z = +m[1];
+  fitC.font = z + "px " + m[2];
+  const tw = fitC.measureText(t || "").width;
+  return tw > w ? Math.max(7, Math.floor((z * w * 10) / tw) / 10) : z;
+}
 function soupis() {
   const fd = food(),
     R = fd ? 30 : 33,
@@ -1314,7 +1359,7 @@ function soupis() {
       .slice(p * R, p * R + R)
       .map((it, j) => {
         const d = diff(it);
-        return `<tr><td class="n">${p * R + j + 1}</td><td style="font:${iF};font-weight:400">${E(it.n)}</td><td class="n">${fmt(N(it.d))}</td><td style="text-align:right">${fmt(N(it.s))}</td><td class="v" style="${isBad(it) ? "background:#ffd7d7" : ""}">${fmt(d)}</td><td style="font:12px Arial,sans-serif;font-weight:400;white-space:normal">${E(it.k)}</td></tr>`;
+        return `<tr><td class="n">${p * R + j + 1}</td><td style="font:${iF};font-weight:400;font-size:${fit(it.n, W[1] - 8, iF)}px">${E(it.n)}</td><td class="n">${fmt(N(it.d))}</td><td style="text-align:right">${fmt(N(it.s))}</td><td class="v" style="${isBad(it) ? "background:#ffd7d7" : ""}">${fmt(d)}</td><td style="font:12px Arial,sans-serif;font-weight:400;white-space:normal">${E(it.k)}</td></tr>`;
       })
       .join("");
     P.push(
@@ -1339,7 +1384,7 @@ function zapis() {
   if (S.manazer) mem.push([S.manazer, "sm"]);
   ex.forEach((x) => mem.push([x, ""]));
   const im = (k) =>
-      k && SC[k] ? `<img src="${SC[k]}" style="max-height:44px;max-width:200px;vertical-align:middle">` : "",
+      k && SC[k] ? `<img src="${SC[k]}" style="max-height:56px;max-width:220px;vertical-align:middle">` : "",
     rows = [
       ["Předseda: <b>" + E(S.predseda) + "</b>", "Podpis: " + im("sp")],
       ["Členové: " + (mem[0] ? "<b>" + E(mem[0][0]) + "</b>" : ""), mem[0] ? im(mem[0][1]) : ""],
@@ -1383,8 +1428,8 @@ async function gen(kind) {
       pdf = new jsPDF("p", "mm", "a4");
     for (let i = 0; i < pages.length; i++) {
       st.innerHTML = `<div class="pg">${pages[i]}</div>`;
-      const c = await html2canvas(st.firstChild, { scale: 2, backgroundColor: "#fff" }),
-        img = c.toDataURL("image/jpeg", 0.92),
+      const c = await html2canvas(st.firstChild, { scale: 3, backgroundColor: "#fff" }),
+        img = c.toDataURL("image/jpeg", 0.95),
         h = (210 * c.height) / c.width;
       if (h > 297 && h <= 380) {
         if (i) pdf.addPage();
@@ -1432,7 +1477,12 @@ document.addEventListener("input", (e) => {
     if (t.dataset.k === "hs" || t.dataset.k === "hf") $("#hd").textContent = hd();
     save();
   } else if (t.dataset.i !== undefined) {
-    S.items[+t.dataset.i][t.dataset.f] = t.value;
+    const it = S.items[+t.dataset.i];
+    it[t.dataset.f] = t.value;
+    if (t.dataset.f === "k") {
+      it.man = 1;
+      it.ao = 0;
+    }
     upd(+t.dataset.i);
     save();
   }
@@ -1440,8 +1490,15 @@ document.addEventListener("input", (e) => {
 let lastE = null,
   lastC = null;
 document.addEventListener("focusin", (e) => {
+  if (e.target.matches && e.target.matches("input,textarea")) document.body.classList.add("typ");
   if (e.target.dataset && e.target.dataset.ei !== undefined) lastE = e.target;
   if (e.target.dataset && e.target.dataset.ec !== undefined) lastC = e.target;
+});
+document.addEventListener("focusout", () => {
+  setTimeout(() => {
+    const a = document.activeElement;
+    if (!a || !a.matches || !a.matches("input,textarea")) document.body.classList.remove("typ");
+  }, 80);
 });
 document.addEventListener("change", (e) => {
   if (e.target.dataset.ei !== undefined) commit(e.target);
